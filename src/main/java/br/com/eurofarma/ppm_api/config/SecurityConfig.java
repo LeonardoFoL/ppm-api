@@ -1,8 +1,7 @@
 package br.com.eurofarma.ppm_api.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod; // Importe o HttpMethod se precisar ser mais específico
+import org.springframework.context.annotation.Configuration; 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,7 +31,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .cors(withDefaults())
-            // GARANTIA: A proteção CSRF está desabilitada.
+          
             .csrf(csrf -> csrf.disable()) 
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
@@ -42,8 +41,8 @@ public class SecurityConfig {
                     "/swagger-ui.html"
                 ).permitAll()
                 
-                // A CHAVE ESTÁ AQUI: Esta regra com "/api/projects/**" se aplica a TODAS
-                // as sub-rotas e a TODOS os métodos (GET, POST, PUT, DELETE) sob /api/projects.
+                
+                
                 .requestMatchers("/api/projects/**").hasAuthority("ADMIN")
 
                 .anyRequest().authenticated()
@@ -54,7 +53,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // O resto do arquivo continua igual...
+   
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

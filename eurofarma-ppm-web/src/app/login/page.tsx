@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify'; // Importe o toast
+import { toast } from 'react-toastify'; 
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
