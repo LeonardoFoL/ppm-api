@@ -27,11 +27,11 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Limpa os bancos para garantir um estado limpo
+     
         projectRepository.deleteAll();
         userRepository.deleteAll();
 
-        // --- Criação de Usuário de Teste ---
+      
         if (userRepository.count() == 0) {
             User adminUser = User.builder()
                     .username("admin")
@@ -43,7 +43,7 @@ public class DataLoader implements CommandLineRunner {
             System.out.println(">>> Usuário 'admin' criado com senha 'admin123'. <<<");
         }
 
-    // --- Criação de Projetos de Teste ---
+   
 
         Project p1 = new Project();
     p1.setName("Plataforma EURON de Inovação Aberta");

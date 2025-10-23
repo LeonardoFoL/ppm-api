@@ -1,0 +1,48 @@
+name: Release - Create Tag and GitHub Release
+
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-release:
+    name: Create Git Tag and GitHub Release
+    runs-on: ubuntu-latest
+  
+    permissions:
+      contents: write
+
+    steps:
+    
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+  
+      - name: Install xmllint
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+
+     
+      - name: Get project version from pom.xml
+        id: get_version 
+        run: |
+          # Usa xmllint com xpath para extrair o conteúdo da tag <version> dentro de <project>
+          VERSION=$(xmllint --xpath "//*[local-name()='project']/*[local-name()='version']/text()" pom.xml)
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2 
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }} 
+          name: Release v${{ steps.get_version.outputs.version }}
+          body: | 
+            Release automática da versão ${{ steps.get_version.outputs.version }} gerada via GitHub Actions.
+            - Build da API
+            - Imagem Docker publicada
+          draft: false 
+          prerelease: false 
+        env:
+          
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
